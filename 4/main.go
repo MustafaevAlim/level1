@@ -75,8 +75,8 @@ func main() {
 			select {
 			case <-ctx.Done():
 				return
-			default:
-				ch <- getRandomString()
+			case ch <- getRandomString():
+
 				time.Sleep(2 * time.Second)
 
 			}
@@ -85,7 +85,7 @@ func main() {
 	}()
 	<-ctx.Done()
 
-	close(ch)
 	fmt.Print("Завершение программы")
 	wg.Wait()
+	close(ch)
 }
